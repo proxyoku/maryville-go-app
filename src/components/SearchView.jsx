@@ -1,18 +1,15 @@
 //(Roles 5 & 6: "Go!" & Instructions)
 import React from 'react';
+import SearchBar from './SearchBar';
 
 export default function SearchView({ setDestination }) {
-  // Temporary mock data for testing
-  const handleSearch = () => {
-    setDestination({ name: "Library", lat: 34.05, lng: -118.24 });
-    console.log("Destination set to Library");
-  };
-
+  // SearchView now delegates all input handling to the reusable
+  // <SearchBar> component.  setDestination is passed straight through
+  // so the parent can react when the user chooses a building.
   return (
-    <div className="search-container" style={{ padding: '10px', background: '#f4f4f4' }}>
-      <input type="text" placeholder="Search for a building..." />
-      <button onClick={handleSearch}>Select Library</button>
-      <p><small>Role 3 & 4: Search Logic goes here</small></p>
-    </div>
+      //Role 3 & 4: Search Logic goes here
+      //{/* the search bar component renders the input + suggestion dropdown */}
+      <SearchBar onSelect={setDestination} />
+    //</div>
   );
 }
