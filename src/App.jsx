@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import MapView from './components/MapView';
+import SearchView from './components/SearchView';
+import NavPanel from './components/NavPanel';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // Global "State" - making sure everyones part can work together
+  const [destination, setDestination] = useState(null); // Role 3 sets this
+  const [isNavigating, setIsNavigating] = useState(false); // Role 5 toggles this
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app-container">
+      {/* Role 1 & 2's Territory */}
+      <MapView destination={destination} isNavigating={isNavigating} />
+
+      {/* Role 3 & 4's Territory */}
+      <SearchView setDestination={setDestination} />
+
+      {/* Role 5 & 6's Territory */}
+      <NavPanel 
+        destination={destination} 
+        isNavigating={isNavigating} 
+        setIsNavigating={setIsNavigating} 
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;
