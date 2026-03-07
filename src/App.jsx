@@ -9,6 +9,19 @@ function App() {
   const [destination, setDestination] = useState(null); // Role 3 sets this
   const [isNavigating, setIsNavigating] = useState(false); // Role 5 toggles this
 
+   // Called when the user presses "Go!"
+  const beginNavigation = () => {
+    if (!destination) return; // safety check
+    setIsNavigating(true);
+    console.log("Navigation started!");
+  };
+
+  // Called when the user presses "Stop"
+  const stopNavigation = () => {
+    setIsNavigating(false);
+    console.log("Navigation stopped.");
+  };
+  
   return (
     <div className="app-container">
       {/* Role 1 & 2's Territory */}
@@ -22,6 +35,10 @@ function App() {
         destination={destination} 
         isNavigating={isNavigating} 
         setIsNavigating={setIsNavigating} 
+
+        //Passes function to NavPanel
+        beginNavigation={beginNavigation}
+        stopNavigation={stopNavigation}
       />
     </div>
   );
