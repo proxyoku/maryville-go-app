@@ -21,12 +21,15 @@ export default function SearchBar({ onSelect }) {
       .map((b) => b.name)
       .filter((name) => name.toLowerCase().includes(lower));
 
+    // limit to 2 recommended items so the dropdown stays within the viewport
+    const limited = matches.slice(0, 2);
+
     // if the current query exactly equals one building name, we don't need
     // to show a dropdown – treat it as "selected" and clear suggestions.
-    if (matches.length === 1 && matches[0].toLowerCase() === lower) {
+    if (limited.length === 1 && limited[0].toLowerCase() === lower) {
       setSuggestions([]);
     } else {
-      setSuggestions(matches);
+      setSuggestions(limited);
     }
   }, [query]);
 
@@ -53,12 +56,12 @@ export default function SearchBar({ onSelect }) {
         onChange={handleChange}
         placeholder="Search for a building..."
         style={{
-          // make the bar narrower so it doesn’t dominate the page
+          // bar size
           width: '250px',
           maxWidth: '100%',
           padding: '6px 8px',
           fontSize: '0.9rem',
-          backgroundColor: 'rgba(255,255,255,0.8)',
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
           border: '1px solid #ccc',
           borderRadius: '4px',
         }}
@@ -77,6 +80,8 @@ export default function SearchBar({ onSelect }) {
             maxHeight: '150px',
             overflowY: 'auto',
             zIndex: 1000,
+            bottom: '100%',
+            marginBottom: '1px',
           }}
         >
           {suggestions.map((name, idx) => (
