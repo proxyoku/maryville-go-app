@@ -46,24 +46,26 @@ export default function SearchView({ setDestination }) {
     } else if (bearing > 180 && bearing < 360) {
       return "Turn Left";
     } else if (bearing == 180 || bearing == 0) {
-      var distance = L.LatLng(startLat, startLng).distanceTo(L.latLng(EndLat, EndLong))
-      return `Go straight for ${distance}m.`;
+      // var distance = L.LatLng(startLat, startLng).distanceTo(L.latLng(EndLat, EndLong))
+      return "Go straight";
     }
   };
 
-  function setCoords(startLat, StartLong, EndLat, EndLong) {
-    const pathStartLat = startLat;
-    const pathStartLong = StartLong;
-
-    const pathEndLat = EndLat;
-    const pathEndLong = EndLong;
-
-    return pathStartLat, pathStartLong, pathEndLat, pathEndLong
-  }
-
+  // Commented out setCoords function as it was causingan error
+  // function setCoords(startLat, StartLong, EndLat, EndLong) {
+  //   const pathStartLat = startLat;
+  //   const pathStartLong = StartLong;
+  //   const pathEndLat = EndLat;
+  //   const pathEndLong = EndLong;
+  //   return pathStartLat, pathStartLong, pathEndLat, pathEndLong
+  // }
 
   // Temporary Values for Testing
-  const [pathStartLat, pathStartLong, pathEndLat, pathEndLong] = setCoords(10, 20, 25, 20)
+  const pathStartLat = 10;
+  const pathStartLong = 5;
+
+  const pathEndLat = 25;
+  const pathEndLong = 20;
 
   const bearing = calculateBearing(pathStartLat, pathStartLong, pathEndLat, pathEndLong);
   const direction = getDirection(bearing);

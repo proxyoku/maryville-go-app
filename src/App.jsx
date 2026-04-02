@@ -33,7 +33,7 @@ function App() {
   };
 
    // Called when the user presses "Go!"
-  const beginNavigation = () => {
+  const beginNavigation = async () => {
     if (!destination) return; // safety check
     setIsNavigating(true);
     console.log("Navigation started!");
