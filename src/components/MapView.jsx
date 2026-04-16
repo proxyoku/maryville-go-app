@@ -1,6 +1,6 @@
 //(Roles 1 & 2: The Map & GPS)
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
@@ -24,7 +24,12 @@ function RecenterMap({ location }) {
   return null;
 }
 
-export default function MapView({ destination, isNavigating }) {
+export default function MapView({
+  destination,
+  isNavigating,
+  route,
+  onUserLocation,
+}) {
 // Initial GPS logic : using the browsers built-in GPS functionality (api: navigator.geolocation)
   const [userLocation, setUserLocation] = useState(null); // this is where the GPS data is stored (get the user location: latitude and longitude)
   const [locationError, setLocationError] = useState(null); // this is where the error message is stored (if the user denies the request, or the browser doesn't support GPS)
@@ -39,10 +44,12 @@ useEffect(() => {
   // watch the user's location: latitude and longitude
   const watchId = navigator.geolocation.watchPosition(
     (position) => {
-      setUserLocation({
+      const next = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
-      });
+      };
+      setUserLocation(next);
+      onUserLocation?.(next);
     },
     (error) => {
       setLocationError(error.message); // "User denied location"
@@ -55,7 +62,7 @@ useEffect(() => {
   );
 
   return () => navigator.geolocation.clearWatch(watchId);
-}, []);
+}, [onUserLocation]);
 
 
 // Default campus location if GPS hasn't loaded yet
@@ -87,6 +94,11 @@ useEffect(() => {
           <Marker position={[destination.lat, destination.lng]}>
             <Popup>Destination: {destination.name}</Popup>
           </Marker>
+        )}
+
+        {/* 5. The Route Line */}
+        {Array.isArray(route) && route.length > 1 && (
+          <Polyline positions={route} pathOptions={{ color: '#1e90ff', weight: 5 }} />
         )}
 
         {/* Auto-recenter the map if we are in "Navigating" mode */}

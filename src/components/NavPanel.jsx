@@ -2,7 +2,14 @@
 
 import React from 'react';
 
-export default function NavPanel({ destination, isNavigating, setIsNavigating }) {
+export default function NavPanel({
+  destination,
+  isNavigating,
+  beginNavigation,
+  stopNavigation,
+  directions,
+  error,
+}) {
   if (!destination) return <div className="nav-panel">Select a destination to start</div>;
 
   return (
@@ -10,7 +17,7 @@ export default function NavPanel({ destination, isNavigating, setIsNavigating })
       {!isNavigating ? (
         <button 
           className="go-button" 
-          onClick={() => setIsNavigating(true)}
+          onClick={beginNavigation}
           style={{ backgroundColor: 'green', color: 'white', padding: '10px 20px' }}
         >
           GO!
@@ -18,11 +25,17 @@ export default function NavPanel({ destination, isNavigating, setIsNavigating })
       ) : (
         <div className="directions-list">
           <h3>Directions to {destination.name}</h3>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
           <ul>
-            <li>Step 1: Walk straight for 50m</li>
-            <li>Step 2: Turn left at the fountain</li>
+            {(directions && directions.length > 0) ? (
+              directions.slice(0, 12).map((step, idx) => (
+                <li key={idx}>{step}</li>
+              ))
+            ) : (
+              <li>Calculating walking route…</li>
+            )}
           </ul>
-          <button onClick={() => setIsNavigating(false)}>Stop Navigation</button>
+          <button onClick={stopNavigation}>Stop Navigation</button>
         </div>
       )}
       <p><small>Role 5 & 6: Navigation prompts & lists</small></p>

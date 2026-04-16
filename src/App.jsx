@@ -3,48 +3,44 @@ import MapView from './components/MapView';
 import SearchView from './components/SearchView';
 import NavPanel from './components/NavPanel';
 import './App.css';
+import { getWalkingRoute } from './services/getWalkingRoute';
 
 function App() {
   // Global "State" - making sure everyones part can work together
   const [destination, setDestination] = useState(null); // Role 3 sets this
   const [isNavigating, setIsNavigating] = useState(false); // Role 5 toggles this
+  const [userLocation, setUserLocation] = useState(null);
 
-  const [route, setRoute] = useState(null);          // Role 4 → stored by Role 5
-  const [directions, setDirections] = useState(null); // Role 6 → stored by Role 5
-
-  const fetchRoute = async (destination) => {
-    const response = await fetch(`/api/route?dest=${destination}`);
-    return await response.json();
-  };
-
-  const fetchDirections = async (routeData) => {
-    const response = await fetch(`/api/directions`, {
-      method: "POST",
-      body: JSON.stringify({ route: routeData }),
-    });
-    return await response.json();
-  };
-
-  const startGPSWatcher = () => {
-    // This calls Role 2's GPS code
-    navigator.geolocation.watchPosition((pos) => {
-      console.log("GPS Update:", pos.coords);
-    });
-  };
+  const [route, setRoute] = useState(null); // array of [lat, lng]
+  const [directions, setDirections] = useState(null); // array of strings
+  const [navError, setNavError] = useState(null);
 
    // Called when the user presses "Go!"
   const beginNavigation = async () => {
     if (!destination) return; // safety check
+    if (!userLocation) {
+      setNavError("Waiting for GPS location…");
+      return;
+    }
+
+    setNavError(null);
     setIsNavigating(true);
     console.log("Navigation started!");
 
-    const routeData = await fetchRoute(destination);
-    setRoute(routeData);
-
-    const directionsList = await fetchDirections(routeData);
-    setDirections(directionsList);
-
-    startGPSWatcher(); // Role 2
+    try {
+      const { coordinates, steps } = await getWalkingRoute(
+        userLocation,
+        destination
+      );
+      setRoute(coordinates);
+      setDirections(steps);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setNavError(message);
+      setRoute(null);
+      setDirections(null);
+      setIsNavigating(false);
+    }
   };
 
   // Called when the user presses "Stop"
@@ -54,12 +50,18 @@ function App() {
 
     setRoute(null);
     setDirections(null);
+    setNavError(null);
   };
   
   return (
     <div className="app-container">
       {/* Role 1 & 2's Territory */}
-      <MapView destination={destination} isNavigating={isNavigating} route={route}/>
+      <MapView
+        destination={destination}
+        isNavigating={isNavigating}
+        route={route}
+        onUserLocation={setUserLocation}
+      />
 
       {/* Role 3 & 4's Territory */}
       <SearchView setDestination={setDestination} />
@@ -68,13 +70,11 @@ function App() {
       <NavPanel 
         destination={destination} 
         isNavigating={isNavigating} 
-        setIsNavigating={setIsNavigating} 
-
-        //Passes function to NavPanel
         beginNavigation={beginNavigation}
         stopNavigation={stopNavigation}
         route={route}
         directions={directions}
+        error={navError}
       />
     </div>
   );
