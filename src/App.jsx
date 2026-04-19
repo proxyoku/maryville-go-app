@@ -54,19 +54,21 @@ function App() {
   };
   
   return (
-    <div className="app-container">
-      {/* Role 1 & 2's Territory */}
+    
+  <div className="app-container">
+    <div className="map-view-wrapper">
       <MapView
         destination={destination}
         isNavigating={isNavigating}
         route={route}
         onUserLocation={setUserLocation}
       />
+    </div>
 
-      {/* Role 3 & 4's Territory */}
+    <div className ="search-view-floating">
       <SearchView setDestination={setDestination} />
+    </div>
 
-      {/* Role 5 & 6's Territory */}
       <NavPanel 
         destination={destination} 
         isNavigating={isNavigating} 

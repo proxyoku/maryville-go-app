@@ -50,21 +50,29 @@ export default function SearchBar({ onSelect }) {
 
   return (
     <div style={{ position: 'relative' /* container for dropdown */ }}>
+      {/* magnifying glass Icon */}
+      <svg 
+        className="search-icon-svg"
+        xmlns="http://www.w3.org/2000/svg" 
+        width="18" 
+        height="18" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="#888" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+
       <input
         type="text"
         value={query}
         onChange={handleChange}
         placeholder="Search for a building..."
-        style={{
-          // bar size
-          width: '250px',
-          maxWidth: '100%',
-          padding: '6px 8px',
-          fontSize: '0.9rem',
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          border: '1px solid #ccc',
-          borderRadius: '4px',
-        }}
+        className='search-bar-input'
       />
       {suggestions.length > 0 && (
         <ul
@@ -74,7 +82,7 @@ export default function SearchBar({ onSelect }) {
             padding: '4px 0',
             background: '#fff',
             border: '1px solid #ccc',
-            borderRadius: '4px',
+            borderRadius: '20px',
             position: 'absolute',
             width: '100%',
             maxHeight: '150px',

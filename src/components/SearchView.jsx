@@ -51,7 +51,7 @@ export default function SearchView({ setDestination }) {
     }
   };
 
-  // Commented out setCoords function as it was causingan error
+  // Commented out setCoords function as it was causing an error
   // function setCoords(startLat, StartLong, EndLat, EndLong) {
   //   const pathStartLat = startLat;
   //   const pathStartLong = StartLong;

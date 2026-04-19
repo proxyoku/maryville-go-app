@@ -18,7 +18,7 @@ export default function NavPanel({
         <button 
           className="go-button" 
           onClick={beginNavigation}
-          style={{ backgroundColor: 'green', color: 'white', padding: '10px 20px' }}
+          style={{ color: 'white', padding: '10px 20px' }}
         >
           GO!
         </button>
@@ -38,7 +38,6 @@ export default function NavPanel({
           <button onClick={stopNavigation}>Stop Navigation</button>
         </div>
       )}
-      <p><small>Role 5 & 6: Navigation prompts & lists</small></p>
     </div>
   );
 }

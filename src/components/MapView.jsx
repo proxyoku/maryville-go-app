@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import muMarkerIcon from '../assets/marker-icon-mu.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 let DefaultIcon = L.icon({
     iconUrl: markerIcon,
@@ -12,6 +13,16 @@ let DefaultIcon = L.icon({
     iconAnchor: [12, 41]
 });
 L.Marker.prototype.options.icon = DefaultIcon;
+
+//changes the default icon image to a red one
+const RedIcon = L.icon({
+    iconUrl: muMarkerIcon,
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
 
 // Helper to auto-center the map when the user moves
 function RecenterMap({ location }) {
@@ -69,7 +80,7 @@ useEffect(() => {
   const defaultCenter = [38.6462, -90.5037]; 
 
   return (
-    <div style={{ height: '70vh', width: '100%', position: 'relative' }}>
+    <div style={{ height: '100%', width: '100%', position: 'relative' }}>
       {locationError && <div style={{color: 'red', position: 'absolute', zIndex: 1000}}>{locationError}</div>}
       
       <MapContainer 
@@ -84,21 +95,21 @@ useEffect(() => {
 
         {/* 3. The "Blue Dot" (User Location) */}
         {userLocation && (
-          <Marker position={[userLocation.lat, userLocation.lng]}>
+          <Marker position={[userLocation.lat, userLocation.lng]} icon={RedIcon}>
             <Popup>You are here</Popup>
           </Marker>
         )}
 
         {/* 4. The Destination Marker */}
         {destination && (
-          <Marker position={[destination.lat, destination.lng]}>
+          <Marker position={[destination.lat, destination.lng]} icon={RedIcon}>
             <Popup>Destination: {destination.name}</Popup>
           </Marker>
         )}
 
         {/* 5. The Route Line */}
         {Array.isArray(route) && route.length > 1 && (
-          <Polyline positions={route} pathOptions={{ color: '#1e90ff', weight: 5 }} />
+          <Polyline positions={route} pathOptions={{ color: '#D00000', weight: 5 }} />
         )}
 
         {/* Auto-recenter the map if we are in "Navigating" mode */}
