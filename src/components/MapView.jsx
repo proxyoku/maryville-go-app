@@ -81,7 +81,7 @@ useEffect(() => {
 
   return (
     <div style={{ height: '100%', width: '100%', position: 'relative' }}>
-      {locationError && <div style={{color: 'red', position: 'absolute', zIndex: 1000}}>{locationError}</div>}
+      {locationError && <div style={{color: 'red', position: 'absolute', zIndex: 1000, left: '50%', transform: 'translateX(-50%)'}}>{locationError}</div>}
       
       <MapContainer 
         center={defaultCenter} 
