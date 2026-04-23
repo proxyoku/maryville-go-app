@@ -77,11 +77,11 @@ export default function SearchView({ setDestination }) {
   ];
 
   // Loop that iterates through the array and prints out directions with km
-  for (let i = 0; i < nodes.length - 2; i++) {
+  for (let i = 0; i < nodes.length - 1; i++) {
     const pathStartLat = nodes[i][0];
     const pathStartLong = nodes[i][1];
     const pathEndLat = nodes[i + 1][0];
-    const pathEndLong = nodes[i + 2][1];
+    const pathEndLong = nodes[i + 1][1];
     var distance = calculateDistance(pathStartLat, pathStartLong, pathEndLat, pathEndLong);
 
     const bearing = calculateBearing(pathStartLat, pathStartLong, pathEndLat, pathEndLong);
