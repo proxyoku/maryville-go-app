@@ -24,6 +24,7 @@ function App() {
     }
 
     setNavError(null);
+    setDirections(null); // Clear previous directions
     setIsNavigating(true);
     console.log("Navigation started!");
 
@@ -39,7 +40,7 @@ function App() {
       setNavError(message);
       setRoute(null);
       setDirections(null);
-      setIsNavigating(false);
+      // Keep isNavigating true so the user can see the error message in the NavPanel
     }
   };
 

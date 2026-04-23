@@ -44,6 +44,11 @@ export default function MapView({
 // Initial GPS logic : using the browsers built-in GPS functionality (api: navigator.geolocation)
   const [userLocation, setUserLocation] = useState(null); // this is where the GPS data is stored (get the user location: latitude and longitude)
   const [locationError, setLocationError] = useState(null); // this is where the error message is stored (if the user denies the request, or the browser doesn't support GPS)
+  //debug code for testers
+  const [isMocked, setIsMocked] = useState(false);
+  
+  const UNIVERSITY_COORDS = { lat: 38.6462, lng: -90.5037 };
+  //end of debug code
 
 // useEffect hook to watch the user's location
 useEffect(() => {
@@ -59,8 +64,14 @@ useEffect(() => {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       };
-      setUserLocation(next);
-      onUserLocation?.(next);
+
+      //debug code for testers 
+      if (!isMocked) {
+        setUserLocation(next);
+        onUserLocation?.(next);
+      }
+//end of debug code 
+
     },
     (error) => {
       setLocationError(error.message); // "User denied location"
@@ -73,8 +84,19 @@ useEffect(() => {
   );
 
   return () => navigator.geolocation.clearWatch(watchId);
-}, [onUserLocation]);
 
+  //debug code for testers
+}, [onUserLocation, isMocked]);
+
+  const handleToggleMock = () => {
+    const nextMockState = !isMocked;
+    setIsMocked(nextMockState);
+    if (nextMockState) {
+      setUserLocation(UNIVERSITY_COORDS);
+      onUserLocation?.(UNIVERSITY_COORDS);
+    }
+  };
+//end of debug code
 
 // Default campus location if GPS hasn't loaded yet
   const defaultCenter = [38.6462, -90.5037]; 
@@ -82,7 +104,16 @@ useEffect(() => {
   return (
     <div style={{ height: '100%', width: '100%', position: 'relative' }}>
       {locationError && <div style={{color: 'red', position: 'absolute', zIndex: 1000, left: '50%', transform: 'translateX(-50%)'}}>{locationError}</div>}
-      
+
+     {/*debug code for testers*/}
+      <button 
+        className="debug-mock-toggle" 
+        onClick={handleToggleMock}
+      >
+        {isMocked ? "REAL GPS" : "MOCK UNI"}
+      </button>
+    {/*end of debug code*/}
+    
       <MapContainer 
         center={defaultCenter} 
         zoom={17} 
@@ -118,10 +149,3 @@ useEffect(() => {
     </div>
   );
 }
-
-
-
-
-
-
-
