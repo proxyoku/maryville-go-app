@@ -39,39 +39,56 @@ export default function SearchView({ setDestination }) {
     return (bearing + 360) % 360;
   };
 
-  // Function to use the Bearing to get directional Step
+// Haversine formula for calculating distance 
+  function calculateDistance(startLat, startLng, destLat, destLng) {
+    const difLat = (destLat - startLat) * (Math.PI / 180);
+    const difLng = (destLng - startLng) * (Math.PI / 180);
+    const r = 6371;
+    const a =
+      Math.sin(difLat / 2) * Math.sin(difLat / 2) +
+      Math.cos(toRadians(startLat)) * Math.cos(toRadians(destLat)) *
+      Math.sin(difLng / 2) * Math.sin(difLng / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = r * c;
+
+    return String(distance.toFixed(2)) + 'km';
+  }
+
+  // Function to use the Bearing to get directional step
   function getDirection(bearing) {
     if (bearing > 0 && bearing < 180) {
       return "Turn Right";
     } else if (bearing > 180 && bearing < 360) {
       return "Turn Left";
     } else if (bearing == 180 || bearing == 0) {
-      // var distance = L.LatLng(startLat, startLng).distanceTo(L.latLng(EndLat, EndLong))
       return "Go straight";
     }
   };
 
-  // Commented out setCoords function as it was causing an error
-  // function setCoords(startLat, StartLong, EndLat, EndLong) {
-  //   const pathStartLat = startLat;
-  //   const pathStartLong = StartLong;
-  //   const pathEndLat = EndLat;
-  //   const pathEndLong = EndLong;
-  //   return pathStartLat, pathStartLong, pathEndLat, pathEndLong
-  // }
+  // Format: LAT, LONG (Test Values)
+  const nodes = [
+    [10, 5],
+    [25, 20],
+    [40, 35],
+    [50, 40],
+    [60, 40],
+    [70, 40],
+  ];
 
-  // Temporary Values for Testing
-  const pathStartLat = 10;
-  const pathStartLong = 5;
+  // Loop that iterates through the array and prints out directions with km
+  for (let i = 0; i < nodes.length - 1; i++) {
+    const pathStartLat = nodes[i][0];
+    const pathStartLong = nodes[i][1];
+    const pathEndLat = nodes[i + 1][0];
+    const pathEndLong = nodes[i + 1][1];
+    var distance = calculateDistance(pathStartLat, pathStartLong, pathEndLat, pathEndLong);
 
-  const pathEndLat = 25;
-  const pathEndLong = 20;
+    const bearing = calculateBearing(pathStartLat, pathStartLong, pathEndLat, pathEndLong);
+    const direction = getDirection(bearing);
 
-  const bearing = calculateBearing(pathStartLat, pathStartLong, pathEndLat, pathEndLong);
-  const direction = getDirection(bearing);
-
-  // Output
-  console.log(direction);
+    console.log(direction, distance); // Can be changed to add the directions on the menu
+  }
 
   return (
     //Role 3 & 4: Search Logic goes here
