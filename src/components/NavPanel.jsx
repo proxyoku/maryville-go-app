@@ -27,12 +27,14 @@ export default function NavPanel({
           <h3>Directions to {destination.name}</h3>
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <ul>
-            {(directions && directions.length > 0) ? (
+            {directions === null && !error ? (
+              <li>Calculating walking route…</li>
+            ) : (directions && directions.length > 0) ? (
               directions.slice(0, 12).map((step, idx) => (
                 <li key={idx}>{step}</li>
               ))
             ) : (
-              <li>Calculating walking route…</li>
+              <li>No detailed steps found for this route.</li>
             )}
           </ul>
           <button onClick={stopNavigation}>Stop Navigation</button>

@@ -49,7 +49,13 @@ export async function getWalkingRoute(from, to) {
   });
   const url = `${OSRM_BASE}/${coordPath}?${params.toString()}`;
 
-  const res = await fetch(url);
+  // Add a timeout to prevent hanging indefinitely
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+  const res = await fetch(url, { signal: controller.signal });
+  clearTimeout(timeoutId);
+  
   const rawText = await res.text();
   let data;
   try {
