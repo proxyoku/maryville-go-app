@@ -58,7 +58,7 @@ function calculateDistance(startLat, startLng, destLat, destLng) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = r * c;
 
-  return String(distance.toFixed(2)) + 'km';
+  return Number(distance);
 }
 // Function to use the Bearing to get directional step
 function getDirection(bearing, previousBearing) {
@@ -90,11 +90,10 @@ export function displayDirections(nodes) {
       steps.pop();
       distance += previousDistance;
     }
-    distance = Number(distance.toFixed(2));
     previousDirection = direction;
     previousDistance = distance;
     previousBearing = bearing;
-    steps.push(`${direction} - ${distance}km`);
+    steps.push(`${direction} - ${distance.toFixed(2)}km`);
   }
   return steps;
 }
