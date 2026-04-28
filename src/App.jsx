@@ -4,6 +4,7 @@ import SearchView from './components/SearchView';
 import NavPanel from './components/NavPanel';
 import './App.css';
 import { getWalkingRoute } from './services/getWalkingRoute';
+import { displayDirections } from './components/SearchView';
 
 function App() {
   // Global "State" - making sure everyones part can work together
@@ -34,7 +35,7 @@ function App() {
         destination
       );
       setRoute(coordinates);
-      setDirections(steps);
+      setDirections(displayDirections(coordinates));
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setNavError(message);
