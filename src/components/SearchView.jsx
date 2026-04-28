@@ -25,7 +25,6 @@ function toDegrees(radians) {
   return radians * 180 / Math.PI;
 };
 
-
 // Function to Calculate the Bearing
 function calculateBearing(startLat, startLng, destLat, destLng) {
   startLat = toRadians(startLat);
@@ -74,20 +73,27 @@ function getDirection(bearing, previousBearing) {
   return "Turn Left";
 };
 // Loop that iterates through the array and prints out directions with km
-
 export function displayDirections(nodes) {
   const steps = [];
   let previousBearing = null;
+  let previousDirection = null;
+  let previousDistance = 0;
   for (let i = 0; i < nodes.length - 1; i++) {
     const pathStartLat = nodes[i][0];
     const pathStartLong = nodes[i][1];
     const pathEndLat = nodes[i + 1][0];
     const pathEndLong = nodes[i + 1][1];
-    var distance = calculateDistance(pathStartLat, pathStartLong, pathEndLat, pathEndLong);
+    let distance = calculateDistance(pathStartLat, pathStartLong, pathEndLat, pathEndLong);
     const bearing = calculateBearing(pathStartLat, pathStartLong, pathEndLat, pathEndLong);
-    const direction = getDirection(bearing, previousBearing);
+    let direction = getDirection(bearing, previousBearing);
+    if (previousDirection == direction && previousDistance != null) {
+      steps.pop();
+      distance += previousDistance;
+    }
+    previousDirection = direction;
+    previousDistance += distance;
     previousBearing = bearing;
-    steps.push(`${direction} - ${distance}`)
+    steps.push(`${direction} - ${distance.toFixed(2)}km`);
   }
   return steps;
 }
