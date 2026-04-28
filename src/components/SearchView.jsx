@@ -90,10 +90,11 @@ export function displayDirections(nodes) {
       steps.pop();
       distance += previousDistance;
     }
+    distance = Number(distance.toFixed(2));
     previousDirection = direction;
-    previousDistance += distance;
+    previousDistance = distance;
     previousBearing = bearing;
-    steps.push(`${direction} - ${distance.toFixed(2)}km`);
+    steps.push(`${direction} - ${distance}km`);
   }
   return steps;
 }
