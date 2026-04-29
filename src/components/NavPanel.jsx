@@ -13,7 +13,7 @@ export default function NavPanel({
   if (!destination) return <div className="nav-panel">Select a destination to start</div>;
 
   return (
-    <div className="nav-panel" style={{ borderTop: '2px solid #ccc', padding: '20px' }}>
+    <div className="nav-panel">
       {!isNavigating ? (
         <button 
           className="go-button" 
@@ -22,24 +22,36 @@ export default function NavPanel({
         >
           GO!
         </button>
-      ) : (
+            ) : (
         <div className="directions-list">
           <h3>Directions to {destination.name}</h3>
           {error && <p style={{ color: 'red' }}>{error}</p>}
-          <ul>
+          <div className="directions-scroll-area">
+            <ul className="apple-style-list">
             {directions === null && !error ? (
-              <li>Calculating walking route…</li>
+              <li className="direction-step">Calculating walking route…</li>
             ) : (directions && directions.length > 0) ? (
-              directions.slice(0, 12).map((step, idx) => (
-                <li key={idx}>{step}</li>
-              ))
+              directions.map((step, idx) => {
+                // Regex handles both hyphens and em-dashes (—)
+                const parts = step.split(/ [—-ー-] /);
+                const instruction = parts[0];
+                const dist = parts[1];
+                return (
+                  <li key={idx} className="direction-step">
+                    <span className="instruction-text">{instruction}</span>
+                    {dist && <span className="distance-badge">{dist}</span>}
+                  </li>
+                );
+              })
             ) : (
-              <li>No detailed steps found for this route.</li>
+              <li className="direction-step">No detailed steps found for this route.</li>
             )}
-          </ul>
-          <button onClick={stopNavigation}>Stop Navigation</button>
+            </ul>
+          </div>
+          <button className="stop-button" onClick={stopNavigation}>End Route</button>
         </div>
       )}
+
     </div>
   );
 }

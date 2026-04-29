@@ -49,7 +49,7 @@ export default function SearchBar({ onSelect }) {
   };
 
   return (
-    <div style={{ position: 'relative' /* container for dropdown */ }}>
+    <div className="search-bar-container">
       {/* magnifying glass Icon */}
       <svg 
         className="search-icon-svg"
@@ -76,32 +76,13 @@ export default function SearchBar({ onSelect }) {
       />
       {suggestions.length > 0 && (
         <ul
-          style={{
-            listStyle: 'none',
-            margin: 0,
-            padding: '4px 0',
-            background: '#fff',
-            border: '1px solid #ccc',
-            borderRadius: '20px',
-            position: 'absolute',
-            width: '100%',
-            maxHeight: '150px',
-            overflowY: 'auto',
-            zIndex: 1000,
-            bottom: '100%',
-            marginBottom: '1px',
-          }}
+          className="search-results"
         >
           {suggestions.map((name, idx) => (
             <li
               key={idx}
               onClick={() => handleSelect(name)}
-              style={{
-                padding: '4px 8px',
-                cursor: 'pointer',
-                color: '#000',       // Recommendations Text Color
-                background: '#fff',  // White Background For Recommendations
-              }}
+              className="result-item"
             >
               {name}
             </li>

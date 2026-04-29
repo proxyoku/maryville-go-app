@@ -81,42 +81,54 @@
 
 /* The dropdown results from our second Figma frame */
 .search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
   background: white;
-  margin-top: 8px;
-  border-radius: 12px;
+  margin-top: 10px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  list-style: none;
+  padding: 0;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .result-item {
-  padding: 12px 20px;
-  border-bottom: 1px solid #eee;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f2f2f7; /* Apple's light grey separator */
   cursor: pointer;
   transition: background 0.2s;
+  text-align: left;
+  color: #1c1c1e;
+  font-weight: 500;
 }
 
 .result-item:hover {
-  background: #f9f9f9;
+  background: #f2f2f7;
 }
 
-.search-view-floating {/*previously .search-container*/
+.search-view-floating {/*controls positioning of the search bar itself*/
   position: absolute;
-  top: 80px;
-  left: 50%;
+  top: 30px; /*controls how high up the search bar is*/
+  left: 45%;
   transform: translateX(-50%);
   z-index: 1000;
-  width: 90%;
+  width: 250px; /* Match the search bar width for direct centering */
 }
 
-/* 1. Container for the search input and dropdown */
+/* Container for the search input and dropdown */
 .search-bar-container {
-  position: relative;
-  width: 100%;
+  width: 250px; /* Forces container to match input width */
+  margin: 0 auto;
 }
 
 .search-bar-input {
   width: 250px;
-  height: 30px;
+  height: 40px; 
   max-width: 100%;
   padding: 6px 12px 6px 38px;
   font-size: 0.9rem;
@@ -130,7 +142,7 @@
 
 .search-icon-svg {
   position: absolute;
-  right: 50px;
+  left: 12px; /* Moved to left to sit inside the padding */
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
@@ -138,3 +150,76 @@
 }
 
 
+
+/* Directions Scroll Area */
+.directions-scroll-area {
+  max-height: 250px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  text-align: left;
+  /* Standardizing scrollbar for a cleaner look */
+  scrollbar-width: none; /* For Firefox */
+}
+
+/* For Webkit browsers (Chrome, Safari, Edge) */
+.directions-scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+/* Show scrollbar on hover */
+.directions-scroll-area:hover {
+  scrollbar-width: thin; /* For Firefox */
+}
+
+.directions-scroll-area:hover::-webkit-scrollbar {
+  display: block; /* For Webkit browsers */
+  width: 8px; /* Adjust width as needed */
+}
+.directions-scroll-area:hover::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0; /* Light grey thumb */
+}
+
+.apple-style-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.direction-step {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Aligns text to top if instruction wraps */
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0; /* Light grey divider */
+}
+
+.direction-step:last-child {
+  border-bottom: none; /* Removes divider for the last item */
+}
+
+.instruction-text {
+  font-weight: 600;
+  color: #1c1c1e; /* Apple's near-black text color */
+  font-size: 16px;
+  line-height: 1.2;
+  flex: 1;
+}
+
+.distance-badge {
+  color: #8e8e93; /* Apple's secondary label grey */
+  font-size: 14px;
+  margin-left: 12px;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.stop-button {
+  width: 100%;
+  background-color: #D00; /* Light grey background */
+  color: #f0f0f0;
+  border: none;
+  padding: 14px;
+  font-weight: 600;
+  border-radius: 12px;
+  margin-top: 10px;
+}
