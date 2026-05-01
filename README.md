@@ -2,19 +2,21 @@
 
 A mobile-friendly web application for navigating campus buildings.
 
-## The Team & Roles
-* **Role 1 (Map Visuals):** [Aubree P.] - Leaflet Map rendering.
-* **Role 2 (GPS Tracking):** [Ewan P.] - Real-time location logic.
-* **Role 3 (Search Manager):** [Bake V.] - Building database & search UI.
-* **Role 4 (Route Artist):** [Arezzio R.] - Pathfinding & line drawing.
-* **Role 5 ("Go!" Trigger):** [Zach W.] - Navigation state management.
-* **Role 6 (List Creator):** [David T.] - Text-based direction list.
+## Our Team
+* **Aubree P.** - Project Manager, Full-Stack Developer
+* **Ewan P.** - GPS Tracking, Navigation Developer
+* **David T.** -  Navigation, Pathfinding Algorithm Developer
+* **Blake V.** - Database & Search Developer, Lead Tester
+* **Arezzio R.** - Design, Icon Creation
+* **Zach W.** - Navigation Developer (Directions) & Lead Tester
 
 ## Tech Stack
 * **Framework:** React (Vite)
 * **Map Library:** Leaflet.js
-* **Styling:** CSS 
-* **Hosting:** Localhost (Development)
+* **Routing/Nav Helpers:** Brouter, OSRM
+* **Styling:** HTML, CSS 
+* **Backend:** JavaScript
+* **Hosting:** Locally Hosted
 
 ## Getting Started
 1. Clone the repo: `git clone https://github.com/proxyoku/maryville-go-app`
